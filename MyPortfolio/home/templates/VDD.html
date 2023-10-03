@@ -1,0 +1,156 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>VDD</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}" />
+        <!-- Font Awesome icons (free version)-->
+        <script class="img-boxy"  src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+
+    <body id="page_top">
+        <!-- Header -->
+        <header class=" bg-primary text-white ">
+            <div class="col-sm-4 mb-5 mb-lg-0">
+                <a class="btn btn-outline-light btn-social mx-1" href='home'><i class="fas fa-home"></i></a>
+            </div>
+            <h1 class="masthead-heading text-uppercase mb-0">Vegetation Disease Detector</h1>
+        </header>
+        
+        <!-- Introduction section-->
+        <h2 id="introduction"><b><u>Introduction:</u></b></h2>
+        <p class="mb-5">As Nepal is an agricultural focus country, the most common vegetation such as potatoes, tomatoes, Bell pepper, etc. are affected by several viruses and bacteria. To combat this problem and detect some of the common diseases, viruses and bacteria we are using machine learning (neural network) and data analysis focused mainly on image processing.
+        </p>
+
+        <!--Table of content section-->
+        <h2><b><u>Table of Content:</u></b></h2>
+    
+            <ol >
+                <li ><a  href="#eda">Exploratory Data Analysis</a></li>
+                <li ><a  href="#viod">Visual interpretation of data</a></li>
+                <li ><a  href="#data_split">Data split for train and validation</a></li>
+                <li ><a  href="#preprocessing">Preprocessing images</a></li>
+                <li ><a  href="#model">Model and layers definition</a></li>
+                <li ><a  href="#optimizers">Optimizers, Loss and metrics</a></li>
+                <li ><a  href="#result">Results and Tests</a></li>
+            </ol>
+        
+
+        <!--EDA-->
+        <div id="eda">
+            <h2 ><b>1. <u>Exploratory Data Analysis:</u></b></h2>
+            <p class="mb-5">The first step we take during any data science and machine learning project is exploring our data set. The data set we use here is downloaded from <a href="https://www.kaggle.com/datasets/emmarex/plantdisease" target="_blank" rel="noopener noreferrer">here.</a>
+                The main purpose of EDA is to help us better understand pattern the network will be able to find later on.
+                <br></br><img class="img-thumbnail"  src="{% static 'assets/img/VDD/1.png' %}" alt="" /><br></br>Here we can see we have data on 15 different conditions of vegetation from healthy to slight mold to even bacterial infection.
+                We also have a total of 20,638 images in total.
+            
+            </p>
+        </div>
+
+        <!--VIOD-->
+        <div id="viod">
+            <h2 ><b>2. <u>Visual Interpretation of Data:</u></b></h2>
+            <p class="mb-5">We can observe for ourselves how much difference is there between and infected leave and a healthy one.
+                We take example of a tomato leaf, one is healthy and other is late blight.                
+                <br></br> <img class="img-thumbnail"  src="{% static 'assets/img/VDD/2.PNG' %}" alt="" /><br></br>
+            </p>
+
+        </div>
+
+        <!--Data split-->
+        <div id="data_split">
+            <h2 ><b>3. <u>Data split for training and validation:</u></b></h2>
+            <p class="mb-5">Out of the 20,638 images we are using 90% of it for training and rest as validation data.               
+                <br></br><img class="img-thumbnail"  src="{% static 'assets/img/VDD/3.PNG' %}" alt="" /><br></br>
+            </p>
+
+        </div>
+
+        <!--Preprocessing-->
+        <div id="preprocessing">
+            <h2 ><b>4. <u>Preprocessing images:</u></b></h2>
+            <p class="mb-5">Preprocessing refers to the process of preparing the data into form that is understood by the machine. As everyone of know machines don’t understand images like we do they take it as a sequence of pixels each represented by a number. So to easily convert these we use the tool provided by Keras API of Tensorflow called ImageDataGenerator.
+                <br></br><img class="img-thumbnail"  src="{% static 'assets/img/VDD/4.png' %}" alt="" /><br></br>
+                This tool makes all manual preprocessing tasks fast and easy. 
+            </p>
+
+        </div>
+
+        <!-- models and layers-->
+        <div id="model">
+            <h2 ><b>5. <u>Models and Layers:</u></b></h2>
+            <p class="mb-5">For our sequential neural network we are using 3 2D Convolutional layers each of them followed by their own 2D Max Polling layer. Then a 25% dropout layer feeding into a flattening layer. After the flattening layer the main 1024 neural Dense layer is located which feeds into our 15 neural output layer.
+                All these Convolutional layers and Dense have <a href="https://keras.io/api/layers/activations/" target="_blank" rel="noopener noreferrer">relu</a> as their activation function where as our output layer has a <a href="https://keras.io/api/layers/activations/" target="_blank" rel="noopener noreferrer">softmax</a> activation function.
+                
+                <br></br><img class="img-thumbnail"  src="{% static 'assets/img/VDD/5.png' %}" alt="" /> <img class="img-thumbnail"  src="assets/img/VDD/5.1.png" alt="" /> <br></br> 
+                We have a total of 37,989,455 parameters in our mode out of which all are trainable parameters. 
+            </p>
+
+        </div>
+
+        <!--Optimizers, Loss and Metrics-->
+        <div id="optimizers">
+            <h2 ><b>6. <u>Optimizers, Loss and Metrics:</u></b></h2>
+            <p class="mb-5">We are evaluating the performance of our model based on the accuracy metric. The optimizer used in the model is <a href="https://keras.io/api/optimizers/adam/" target="_blank" rel="noopener noreferrer">Adam</a> and <a href="https://keras.io/api/losses/probabilistic_losses/#categoricalcrossentropy-class" target="_blank" rel="noopener noreferrer">categorical-crossentropy</a> as our loss function from Keras Api of Tensorflow.               
+                <br></br><img class="img-thumbnail"  src="{% static 'assets/img/VDD/6.png' %}" alt="" /><br></br>
+            </p>
+
+        </div>
+
+        <!--Results-->
+        <div id="result">
+            <h2 ><b>7. <u>Results:</u></b></h2>
+            <p class="mb-5">After training the model on our training set we got a training accuracy of 98% and 0.0408 loss.
+                Similarly on the validation set we got a final accuracy of 92% and 0.3488 loss.
+                 
+                <!-- <br></br><img class="img-thumbnail"  src="assets/img/VDD/7.1.png" alt="" /><br></br> -->
+                
+                <br></br><img class="img-thumbnail"  src="{% static 'assets/img/VDD/7.2.png' %}" alt="" /> <img class="img-thumbnail"  src="assets/img/VDD/7.3.png" alt="" /><br></br>
+
+                <b>
+                    Red line - Training accuracy and Loss<br></br>
+                    Blue line - validation accuracy and Loss
+                </b>
+            </p>
+
+        </div>
+
+
+        <!-- Footer-->
+        <!-- Footer-->
+        <footer class="footer text-left">
+            <div class="container" id="contact">
+                <div class="row">
+                    <!-- Footer Social Icons-->
+                    <div >
+                        <h3 class="text-uppercase">contact</h3>
+                        <h5 class="modaltitle">Gmail : bibek.rawal.588@gmail.com</h5>
+                        <h5>Github : <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/BibekRawal5" target="_blank" rel="noopener noreferrer"><i class="fab fa-github-square"></i></a></h5>
+                        <h5>LinkedIn : <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/bibek-rawal-8b7805253/" target="_blank" rel="noopener noreferrer"><i class="fab fa-fw fa-linkedin-in"></i></a></h5>
+                        <h5>Facebook : <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/bibek.rawal.587/" target="_blank" rel="noopener noreferrer"><i class="fab fa-fw fa-facebook-f"></i></a></h5>
+                    </div>
+                    
+                </div>
+            </div>
+        </footer>
+
+    
+        <!-- Bootstrap core JS-->
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    </body>
+
+    
+</html>
